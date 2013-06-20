@@ -46,7 +46,8 @@ class Chef
         def action_drop
           if exists?
             begin
-              db.query("DROP USER `#{@new_resource.username}`@`#{@new_resource.host}`")
+              host = (@new_resource.host.nil? || @new_resource.host.empty?) ? '' : "@`#{@new_resource.host}`"
+              db.query("DROP USER `#{@new_resource.username}`#{host}")
               @new_resource.updated_by_last_action(true)
             ensure
               close
